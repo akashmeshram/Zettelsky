@@ -83,9 +83,10 @@ set "note_path=!zettelkasten_main_dir!\notes\!note_subfolder!\!filename!"
 
 REM Create the note file and add a timestamp and note type to the note as YAML front matter
 echo ^--- >> "!note_path!"
-echo Title: !title! >> "!note_path!"
-echo Date: %human_readable_time% >> "!note_path!"
-echo Type: %note_type_name% >> "!note_path!"
+echo title: !title! >> "!note_path!"
+echo date: %human_readable_time% >> "!note_path!"
+echo type: %note_type_name% >> "!note_path!"
+echo path: /notes/!note_subfolder!/!filename! >> "!note_path!"
 echo ^--- >> "!note_path!"
 echo. >> "!note_path!"
 
