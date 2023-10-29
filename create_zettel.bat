@@ -94,7 +94,7 @@ start notepad "!note_path!"
 
 REM Prepare a temporary file for reordering the index file
 set "temp_file=!index_file!.tmp"
-echo ## %human_readable_time% - [!title!](\notes\!note_subfolder!\!filename!) > "!temp_file!"
+echo ## %human_readable_time% - [!title!](/notes/!note_subfolder!/!filename!) > "!temp_file!"
 type "!index_file!" >> "!temp_file!"
 
 REM Overwrite the original index file with the reordered content
