@@ -13,21 +13,24 @@ if not exist "%zettelkasten_main_dir%" (
     exit /b
 )
 
-REM Prompt for the numeric Zettelkasten note type (1 for fleeting, 2 for literature, 3 for permanent)
-set /p note_type=Enter the Zettelkasten note type (1 for fleeting, 2 for literature, 3 for permanent): 
+REM Prompt for the numeric Zettelkasten note type (1 for fleeting, 2 for literature, 3 for permanent, 0 to exit)
+set /p note_type=Enter the Zettelkasten note type (1 for fleeting, 2 for literature, 3 for permanent, 0 to exit):
 
 REM Map the numeric code to the actual note type
-if !note_type! == 1 (
-    set "note_type_name=Fleeting"
-    set "note_subfolder=Fleeting"
+if !note_type! == 0 (
+    echo Exiting.
+    exit /b
+) else if !note_type! == 1 (
+    set "note_type_name=fleeting"
+    set "note_subfolder=fleeting"
     set "index_file=!zettelkasten_main_dir!\index\fleeting.md"
 ) else if !note_type! == 2 (
-    set "note_type_name=Literature"
-    set "note_subfolder=Literature"
+    set "note_type_name=literature"
+    set "note_subfolder=literature"
     set "index_file=!zettelkasten_main_dir!\index\literature.md"
 ) else if !note_type! == 3 (
-    set "note_type_name=Permanent"
-    set "note_subfolder=Permanent"
+    set "note_type_name=permanent"
+    set "note_subfolder=permanent"
     set "index_file=!zettelkasten_main_dir!\index\permanent.md"
 ) else (
     echo Invalid note type code. Exiting.
@@ -95,7 +98,7 @@ start notepad "!note_path!"
 
 REM Prepare a temporary file for reordering the index file
 set "temp_file=!index_file!.tmp"
-echo ## %human_readable_time% - [!title!](/notes/!note_subfolder!/!filename!) > "!temp_file!"
+echo - %human_readable_time% - [!title!](/notes/!note_subfolder!/!filename!) > "!temp_file!"
 type "!index_file!" >> "!temp_file!"
 
 REM Overwrite the original index file with the reordered content

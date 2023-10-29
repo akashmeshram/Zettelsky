@@ -5,7 +5,7 @@ Knowledge management for research, study, and writing
 # Basic Usage
 
 ```
-.\create_zettel.bat
+.\zettel_create.bat
 ```
 
 # Author
