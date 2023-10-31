@@ -2,10 +2,16 @@
 
 Knowledge management for research, study, and writing
 
-# Basic Usage
+## Basic Usage
 
+```sh
+make create
 ```
-.\zettel_create.bat
+
+## To resync index
+
+```sh
+make sync
 ```
 
 # Author
