@@ -13,16 +13,34 @@ if not exist "%zettelkasten_folder%" (
     exit /b
 )
 
+set "index_fleeting=!script_dir!index\fleeting.md"
+set "index_fleeting_temp=!script_dir!index\fleeting_temp.md"
+
+set "index_literature=!script_dir!index\literature.md"
+set "index_literature_temp=!script_dir!index\literature_temp.md"
+
+set "index_permanent=!script_dir!index\permanent.md"
+set "index_permanent_temp=!script_dir!index\permanent_temp.md"
+
+REM delete if exists
+del "!index_fleeting!" >nul 2>&1
+del "!index_fleeting_temp!" >nul 2>&1
+
+del "!index_literature!" >nul 2>&1
+del "!index_literature_temp!" >nul 2>&1
+
+del "!index_permanent!" >nul 2>&1
+del "!index_permanent_temp!" >nul 2>&1
+
 REM Loop through all subfolders in the Zettelkasten folder
 for /d %%D in ("%zettelkasten_folder%\*") do (
     set "subfolder=%%~nD"
     
     rem Determine the appropriate index file for the subfolder
     set "index_file=!script_dir!index\!subfolder!.md"
+    echo. > "!index_file!"
 
-    REM Create a temporary file to store the reversed notes for each subfolder
-    set "temp_file=!script_dir!\temp_!subfolder!.md"
-    echo. > "!temp_file"
+    set "temp_file=!script_dir!index\!subfolder!_temp.md"
 
     rem Loop through the Zettelkasten notes in the subfolder and reverse their order
     for %%I in ("%%~fD\*.md") do (
@@ -42,16 +60,24 @@ for /d %%D in ("%zettelkasten_folder%\*") do (
             )
         )
       
-        SET index_entry=-!date!- [!title!](/notes/!subfolder!/!note!.md)
+        SET index_entry=-!date!- [!title!](/notes/!subfolder!/!note!.md^)
         echo !index_entry! >> "!temp_file!"
     )
-
-    rem Replace the original index file with the reversed content
-    move /y "!temp_file!" "!index_file!" >nul 2>&1
-    echo !index_file! updated.
-
-    REM Delete the temporary file
-    del "!temp_file"
 )
+
+REM Replace the original index file with the reversed content
+sort /r "!index_fleeting_temp!" > "!index_fleeting!" 
+echo !index_fleeting! updated.
+
+sort /r "!index_literature_temp!" > "!index_literature!" 
+echo !index_literature! updated.
+
+sort /r "!index_permanent_temp!" > "!index_permanent!" 
+echo !index_permanent! updated.
+
+REM Delete the temporary file
+del "!index_fleeting_temp!" >nul 2>&1
+del "!index_literature_temp!" >nul 2>&1
+del "!index_permanent_temp!" >nul 2>&1
 
 endlocal
